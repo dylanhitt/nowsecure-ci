@@ -1,0 +1,52 @@
+apply plugin: 'java'
+apply plugin: 'java-library'
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+apply plugin: 'application'
+
+version = ""
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    api 'com.googlecode.json-simple:json-simple:1.1'
+
+    // This dependency is used internally, and not exposed to consumers on their own compile classpath.
+    implementation 'com.google.guava:guava:21.0'
+
+    compile group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1'
+
+    // Use JUnit test framework
+    testImplementation 'junit:junit:4.12'
+}
+
+defaultTasks 'clean', 'test', 'jar', 'cleanJars', 'copyJar'
+
+mainClassName = 'com.nowsecure.auto.circleci.Main'
+tasks.withType(JavaExec) {
+    systemProperties System.properties
+}
+
+jar {
+  manifest {
+    attributes(
+      'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
+      'Main-Class': mainClassName
+    )
+  }
+  from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+}
+
+task copyJar(type: Copy) {
+    from fileTree("${buildDir}/libs/").files
+    into file("dist")
+    include "*.jar"
+}
+
+task cleanJars(type: Delete) {
+    delete fileTree("dist").matching {
+        include "**/*.jar"
+    }
+}
