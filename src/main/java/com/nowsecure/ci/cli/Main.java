@@ -31,7 +31,6 @@ public class Main implements NSAutoParameters, NSAutoLogger {
     private String group;
     private File file;
     private int waitMinutes;
-    private boolean breakBuildOnScore;
     private int scoreThreshold;
     private String apiKey;
     private File artifactsDir;
@@ -287,40 +286,6 @@ public class Main implements NSAutoParameters, NSAutoLogger {
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // PRIVATE METHODS
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    private static int parseInt(String name) {
-        String value = System.getProperty(name, "").trim();
-        if (value.length() == 0) {
-            value = System.getenv(name);
-            if (value == null) {
-                return 0;
-            }
-            value = value.trim();
-        }
-        value = value.replaceAll("\\D+", "");
-        if (value.length() == 0) {
-            return 0;
-        }
-        return Integer.parseInt(value);
-    }
-
-    private static boolean getBool(String name, boolean def) {
-        String val = getString(name, String.valueOf(def));
-        return Boolean.valueOf(val);
-    }
-
-    private static String getString(String name, String def) {
-        String value = System.getProperty(name, "").trim();
-        if (value.length() == 0) {
-            value = System.getenv(name);
-            if (value == null) {
-                return def;
-            }
-            value = value.trim();
-        }
-        value = value.replace("<nil>", "");
-        return value.length() == 0 ? def : value;
-    }
-
     public static void main(String[] args) {
         Main main = new Main();
         main.parseArgs(args);

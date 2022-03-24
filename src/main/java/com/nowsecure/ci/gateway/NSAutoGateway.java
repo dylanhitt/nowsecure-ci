@@ -356,7 +356,6 @@ public class NSAutoGateway {
     private void logMap(String prefix, Map<?, ?> map) {
         StringBuilder sb = new StringBuilder();
         for (Map.Entry<?, ?> e : map.entrySet()) {
-            String key = e.getKey().toString().toLowerCase();
             String val = e.getValue().toString();
             if (val.length() > 80) {
                 val = val.substring(0, 80);

@@ -21,7 +21,6 @@ import com.nowsecure.ci.domain.NSAutoParameters;
 import com.nowsecure.ci.domain.ProxySettings;
 import com.nowsecure.ci.domain.ScoreInfo;
 import com.nowsecure.ci.domain.UploadRequest;
-import com.nowsecure.ci.gateway.NSAutoGateway;
 import com.nowsecure.ci.utils.IOHelper;
 import com.nowsecure.ci.utils.IOHelperI;
 

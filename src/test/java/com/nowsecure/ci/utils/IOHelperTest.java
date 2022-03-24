@@ -5,8 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import com.nowsecure.ci.utils.IOHelper;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
