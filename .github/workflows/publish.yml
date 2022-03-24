@@ -26,3 +26,4 @@ jobs:
           body: |
             "[See Changelog for details](./CHANGELOG.md#${{ github.ref_name }})"
           token: ${{ secrets.GITHUB_TOKEN }}
+          allowUpdates: true
