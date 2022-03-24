@@ -1,4 +1,4 @@
-name: CI
+name: Build
 
 on:
   push:
@@ -24,3 +24,15 @@ jobs:
       - name: Create executable jar
         run: |
           ./package.sh
+
+      - name: Publish artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: nowsecure-ci
+          path: nowsecure-ci
+          retention-days: 5
+
+      - name: Show GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
