@@ -15,6 +15,10 @@ public interface NSAutoParameters {
 
     File getFile();
 
+    String getUsername();
+
+    String getPassword();
+
     int getWaitMinutes();
 
     int getScoreThreshold();
