@@ -24,9 +24,9 @@ import com.nowsecure.ci.utils.IOHelperI;
  */
 public class Main implements NSAutoParameters, NSAutoLogger {
     private static final int TIMEOUT = 60000;
-    private static String PLUGIN_NAME = "nowsecure-auto";
+    private static String PLUGIN_NAME = "nowsecure-ci";
     private static final String DEFAULT_URL = "https://lab-api.nowsecure.com";
-    private static final String ARTIFACTS_DIR = "nowsecure-auto_artifacts";
+    private static final String ARTIFACTS_DIR = "nowsecure-ci_artifacts";
     private String apiUrl;
     private String group;
     private File file;
@@ -346,7 +346,7 @@ public class Main implements NSAutoParameters, NSAutoLogger {
         System.err.println("Usage:");
         System.err
                 .println(
-                        "\t./nowsecure-auto --url https://lab-api.nowsecure.com --file your.apk --token <nowsecure-api-token> --group-id <nowsecure-group>");
+                        "\t./nowsecure-ci --url https://lab-api.nowsecure.com --file your.apk --token <nowsecure-api-token> --group-id <nowsecure-group>");
 
         System.err.println();
         System.err.println("Options:");
@@ -361,7 +361,7 @@ public class Main implements NSAutoParameters, NSAutoLogger {
         System.err.println(
                 "\t--score                 Default: 50                             min score. Will exit 1 if score is less than");
         System.err.println(
-                "\t--artifacts-dir         Default: ${PWD}/nowsecure-auto_artifacts  directory to place test artifacts");
+                "\t--artifacts-dir         Default: ${PWD}/nowsecure-ci_artifacts  directory to place test artifacts");
         System.err.println(
                 "\t--show-status-messages  Default: false                          show status messages from automation testing");
         System.err.println("\t--debug                 Default: false");

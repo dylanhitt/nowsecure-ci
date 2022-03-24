@@ -15,4 +15,4 @@ include 'api'
 include 'services:webservice'
 */
 
-rootProject.name = 'nowsecure-auto'
+rootProject.name = 'nowsecure-ci'
