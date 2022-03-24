@@ -30,3 +30,10 @@ jobs:
           name: nowsecure-ci
           path: nowsecure-ci
           retention-days: 10
+      
+      - name: Publish artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: nowsecure-ci.jar
+          path: build/libs/nowsecure-ci.jar
+          retention-days: 10
