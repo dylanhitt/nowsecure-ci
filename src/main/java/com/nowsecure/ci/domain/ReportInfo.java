@@ -25,7 +25,6 @@ public class ReportInfo {
     private String description;
     private Object regulatory;
     private Object issues;
-    private Object context;
 
     public static ReportInfo[] fromJson(String json) throws ParseException, IOException {
         if (json.startsWith("{")) {
@@ -53,7 +52,6 @@ public class ReportInfo {
             reportInfo.setDescription((String) jsonObject.get("description"));
             reportInfo.setRegulatory(jsonObject.get("regulatory"));
             reportInfo.setIssues(jsonObject.get("issues"));
-            reportInfo.setContext(jsonObject.get("context"));
             reportInfos[i] = reportInfo;
         }
 
@@ -148,13 +146,4 @@ public class ReportInfo {
     public void setIssues(Object issues) {
         this.issues = issues;
     }
-
-    public Object getContext() {
-        return context;
-    }
-
-    public void setContext(Object context) {
-        this.context = context;
-    }
-
 }
