@@ -33,12 +33,12 @@ import org.json.simple.parser.ParseException;
 public class NSAutoGateway {
     static int FIFTEEN_SECONDS = 15000;
     private static final String BINARY_URL_SUFFIX = "/binary/";
-    private static final String NOWSECURE_AUTO_SECURITY_TEST_UPLOADED_BINARY_JSON = "/nowsecure-auto-security-test-uploaded-binary.json";
-    private static final String NOWSECURE_AUTO_SECURITY_TEST_REPORT_REQUEST_JSON = "/nowsecure-auto-security-test-request.json";
-    private static final String NOWSECURE_AUTO_SECURITY_TEST_PREFLIGHT_JSON = "/nowsecure-auto-security-test-preflight.json";
-    private static final String NOWSECURE_AUTO_SECURITY_TEST_SCORE_JSON = "/nowsecure-auto-security-test-score.json";
-    private static final String NOWSECURE_AUTO_SECURITY_TEST_REPORT_JSON = "/nowsecure-auto-security-test-report.json";
-    private static final String NOWSECURE_AUTO_SECURITY_TEST_BUILD_JSON = "/nowsecure-auto-security-test-build.json";
+    private static final String NOWSECURE_AUTO_SECURITY_TEST_UPLOADED_BINARY_JSON = "/nowsecure-ci-security-test-uploaded-binary.json";
+    private static final String NOWSECURE_AUTO_SECURITY_TEST_REPORT_REQUEST_JSON = "/nowsecure-ci-security-test-request.json";
+    private static final String NOWSECURE_AUTO_SECURITY_TEST_PREFLIGHT_JSON = "/nowsecure-ci-security-test-preflight.json";
+    private static final String NOWSECURE_AUTO_SECURITY_TEST_SCORE_JSON = "/nowsecure-ci-security-test-score.json";
+    private static final String NOWSECURE_AUTO_SECURITY_TEST_REPORT_JSON = "/nowsecure-ci-security-test-report.json";
+    private static final String NOWSECURE_AUTO_SECURITY_TEST_BUILD_JSON = "/nowsecure-ci-security-test-build.json";
     //
     private final NSAutoParameters params;
     private final NSAutoLogger logger;
