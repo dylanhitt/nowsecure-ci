@@ -22,17 +22,11 @@ jobs:
         uses: gradle/gradle-build-action@v2
 
       - name: Create executable jar
-        run: |
-          ./package.sh
+        run: ./package.sh
 
       - name: Publish artifact
         uses: actions/upload-artifact@v3
         with:
           name: nowsecure-ci
           path: nowsecure-ci
-          retention-days: 5
-
-      - name: Show GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
+          retention-days: 10

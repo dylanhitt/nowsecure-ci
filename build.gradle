@@ -24,7 +24,7 @@ dependencies {
 
 defaultTasks 'clean', 'test', 'jar', 'cleanJars', 'copyJar'
 
-mainClassName = 'com.nowsecure.auto.circleci.Main'
+mainClassName = 'com.nowsecure.ci.cli.Main'
 tasks.withType(JavaExec) {
     systemProperties System.properties
 }
