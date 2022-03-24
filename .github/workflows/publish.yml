@@ -19,11 +19,19 @@ jobs:
           commit: ${{ github.sha }}
           name: nowsecure-ci
       
+      - name: Download artifact
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          workflow: build.yml
+          workflow_conclusion: ""
+          commit: ${{ github.sha }}
+          name: nowsecure-ci.jar
+      
       - name: Publish Release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: nowsecure-ci
+          artifacts: "nowsecure-ci,nowsecure-ci.jar"
           body: |
-            "[See Changelog for details](./CHANGELOG.md#${{ github.ref_name }})"
+            [See Changelog for details](./CHANGELOG.md#${{ github.ref_name }})
           token: ${{ secrets.GITHUB_TOKEN }}
           allowUpdates: true
