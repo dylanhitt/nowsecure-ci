@@ -41,7 +41,9 @@ public class Main implements NSAutoParameters, NSAutoLogger {
     private boolean proxyEnabled;
     private Boolean validateDnsUrlConnection;
     private PrintWriter console;
-    //
+    private String username;
+    private String password;
+
     private ProxySettings proxySettings = new ProxySettings();
 
     private final IOHelperI helper = new IOHelper(PLUGIN_NAME, TIMEOUT);
@@ -157,6 +159,24 @@ public class Main implements NSAutoParameters, NSAutoLogger {
 
     public void setScoreThreshold(int scoreThreshold) {
         this.scoreThreshold = scoreThreshold;
+    }
+
+    @Override
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override
@@ -277,8 +297,10 @@ public class Main implements NSAutoParameters, NSAutoLogger {
                         "    group-id:             %s\n" +
                         "    wait:                 %s\n" +
                         "    score:                %s\n" +
+                        "    username              %s\n" +
+                        "    password              %s\n" +
                         "    show-status-messages: %s\n",
-                apiUrl, artifactsDir, file, group, waitMinutes, scoreThreshold, showStatusMessages);
+                apiUrl, artifactsDir, file, group, waitMinutes, scoreThreshold, username, password, showStatusMessages);
 
         return providedArgs;
     }
@@ -326,6 +348,10 @@ public class Main implements NSAutoParameters, NSAutoLogger {
         System.err.println(
                 "\t--score                 Default: 50                             min score. Will exit 1 if score is less than");
         System.err.println(
+                "\t--username              Default: \"\"                           username for automation testing");
+        System.err.println(
+                "\t--password              Default: \"\"                           password for automation testing");
+        System.err.println(
                 "\t--artifacts-dir         Default: ${PWD}/nowsecure-ci_artifacts  directory to place test artifacts");
         System.err.println(
                 "\t--show-status-messages  Default: false                          show status messages from automation testing");
@@ -358,6 +384,10 @@ public class Main implements NSAutoParameters, NSAutoLogger {
                 PLUGIN_NAME = args[i + 1].trim();
             } else if ("--plugin-version".equals(args[i])) {
                 IOHelper.VERSION = args[i + 1].trim();
+            } else if ("--username".equals(args[i])) {
+                this.username = args[i + 1].trim();
+            } else if ("--password".equals(args[i])) {
+                this.password = args[i + 1].trim();
             } else if ("--show-status-messages".equals(args[i])) {
                 this.showStatusMessages = Boolean.valueOf(args[i + 1].trim());
             } else if ("--stop-tests-on-status".equals(args[i])) {
@@ -383,6 +413,14 @@ public class Main implements NSAutoParameters, NSAutoLogger {
 
         if (file == null) {
             this.usage("file is not defined");
+        }
+
+        if (isEmpty(this.username)) {
+            this.username = "";
+        }
+
+        if (isEmpty(this.password)) {
+            this.password = "";
         }
 
         if (!file.exists()) {

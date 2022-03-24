@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v2.0.1
+
+- Add username and password inputs to maintain backwards compatibility
+
 ## v2.0.0
 
 - Simplify input variables of the cli interface
