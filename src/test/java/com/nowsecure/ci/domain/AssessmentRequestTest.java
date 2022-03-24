@@ -5,8 +5,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import com.nowsecure.ci.domain.AssessmentRequest;
-
 import org.junit.Assert;
 import org.junit.Test;
 
