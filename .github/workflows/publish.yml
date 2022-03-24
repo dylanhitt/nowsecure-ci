@@ -1,0 +1,27 @@
+name: Publish
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    env:
+      CI: true
+    steps:
+      - name: Download artifact
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          workflow: Build
+          commit: ${{ github.sha }}
+          name: nowsecure-ci
+      
+      - name: Publish Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: nowsecure-ci
+          body: |
+            "[See Changelog for details](./CHANGELOG.md#${{ github.ref_name }})"
+          token: ${{ secrets.GITHUB_TOKEN }}
