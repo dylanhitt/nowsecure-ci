@@ -5,8 +5,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import com.nowsecure.ci.domain.ReportInfo;
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -101,12 +99,4 @@ public class ReportInfoTest {
         report.setIssues("issues");
         Assert.assertEquals("issues", report.getIssues());
     }
-
-    @Test
-    public void testGetSetContext() throws Exception {
-        ReportInfo report = new ReportInfo();
-        report.setContext("ctx");
-        Assert.assertEquals("ctx", report.getContext());
-    }
-
 }
