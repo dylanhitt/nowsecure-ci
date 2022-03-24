@@ -8,7 +8,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    env:
+      CI: true
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 8
@@ -19,3 +20,7 @@ jobs:
       
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
+
+      - name: Create executable jar
+        run: |
+          ./package.sh
