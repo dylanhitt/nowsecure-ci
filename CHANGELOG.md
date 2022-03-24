@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## Unreleased
+## v2.0.0
 
 - Simplify input variables of the cli interface
 - Remove context parsing when grabbing assessments
