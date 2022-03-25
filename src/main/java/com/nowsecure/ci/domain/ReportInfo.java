@@ -2,9 +2,9 @@ package com.nowsecure.ci.domain;
 
 import java.io.IOException;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
+import com.github.cliftonlabs.json_simple.JsonArray;
+import com.github.cliftonlabs.json_simple.JsonObject;
+import com.github.cliftonlabs.json_simple.Jsoner;
 import org.json.simple.parser.ParseException;
 
 /**
@@ -30,12 +30,11 @@ public class ReportInfo {
         if (json.startsWith("{")) {
             throw new IOException("Failed to find test report " + json);
         }
-        JSONParser parser = new JSONParser();
-        JSONArray jsonArray = (JSONArray) parser.parse(json);
-        //
+        JsonArray jsonArray = Jsoner.deserialize(json, new JsonArray());
+
         ReportInfo[] reportInfos = new ReportInfo[jsonArray.size()];
         for (int i = 0; i < jsonArray.size(); i++) {
-            JSONObject jsonObject = (JSONObject) jsonArray.get(i);
+            JsonObject jsonObject = (JsonObject) jsonArray.get(i);
             ReportInfo reportInfo = new ReportInfo();
             reportInfo.setKind((String) jsonObject.get("kind"));
             reportInfo.setKey((String) jsonObject.get("key"));

@@ -15,7 +15,7 @@ public class ReportInfoTest {
         byte[] fileBytes = Files.readAllBytes(path);
         String json = new String(fileBytes);
         ReportInfo[] reports = ReportInfo.fromJson(json);
-        Assert.assertEquals(6, reports.length);
+        Assert.assertEquals(7, reports.length);
     }
 
     @Test(expected = IOException.class)
