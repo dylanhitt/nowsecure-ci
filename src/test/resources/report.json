@@ -50,7 +50,7 @@
       "severity": "info"
     },
     "severity": "info",
-    "description": "Network connections were detected during dynamic analysis of the application. Any unexpected connections should be flagged for further analysis, as many third party libraries, especially those linked to advertising or analytic SDKs may send data to unexpected locations.",
+    "description": "Network connections were detected during dynamic analysis of the application. Any unexpected connections should be flagged for further analysis, as many third party libraries, especially those linked to advertising or analytic SDKs may send data to unexpected locations."
   },
   {
     "kind": "dynamic",
@@ -58,7 +58,7 @@
     "title": "Files Stored on SD Card",
     "category": "storage",
     "summary": "As the application is running, we monitor external storage locations to determine if the application is storing data there.",
-    "description": "Files were found to be stored in an external storage location. External storage, such as an SD Card, lacks fine-tuned permissions, which allows any app to access and read files in external storage by default. Android versions 4.4 and later do provide functionality that, under certain circumstances, allows apps to securely store data on the SD Card. More information can be found here: http://source.android.com/devices/tech/storage/",
+    "description": "Files were found to be stored in an external storage location. External storage, such as an SD Card, lacks fine-tuned permissions, which allows any app to access and read files in external storage by default. Android versions 4.4 and later do provide functionality that, under certain circumstances, allows apps to securely store data on the SD Card. More information can be found here: http://source.android.com/devices/tech/storage/"
   },
   {
     "kind": "dynamic",
@@ -71,5 +71,35 @@
     "affected": false,
     "severity": "pass",
     "description": "Username was not recovered from the local application files, or found to be stored on external storage."
+  },
+  {
+    "key": "very large number check",
+    "kind": "foo",
+    "affected": true,
+    "category": "world",
+    "title": "hello",
+    "summary": "bar",
+    "severity": "info",
+    "regulatory": {},
+    "context": {
+      "view": "certificate",
+      "pdfView": "certificate",
+      "rows": [
+        {
+          "address": [
+            "foo",
+            "foo"
+          ],
+          "server_cert": {
+            "sha1": "hello",
+            "issuer": [],
+            "serial": 456789456789456734567834567845678,
+            "keyinfo": {},
+            "subject": [],
+            "altNames": []
+          }
+        }
+      ]
+    }
   }
 ]
