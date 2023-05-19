@@ -23,7 +23,6 @@ import com.nowsecure.ci.utils.IOHelperI;
  *
  */
 public class Main implements NSAutoParameters, NSAutoLogger {
-    private static final int TIMEOUT = 60000;
     private static String PLUGIN_NAME = "nowsecure-ci";
     private static final String DEFAULT_URL = "https://lab-api.nowsecure.com";
     private static final String ARTIFACTS_DIR = "nowsecure-ci_artifacts";
@@ -43,10 +42,11 @@ public class Main implements NSAutoParameters, NSAutoLogger {
     private PrintWriter console;
     private String username;
     private String password;
+    private int uploadTimeout;
 
     private ProxySettings proxySettings = new ProxySettings();
 
-    private final IOHelperI helper = new IOHelper(PLUGIN_NAME, TIMEOUT);
+    private IOHelperI helper;
 
     @Override
     public String getDescription() {
@@ -299,8 +299,10 @@ public class Main implements NSAutoParameters, NSAutoLogger {
                         "    score:                %s\n" +
                         "    username              %s\n" +
                         "    password              %s\n" +
-                        "    show-status-messages: %s\n",
-                apiUrl, artifactsDir, file, group, waitMinutes, scoreThreshold, username, password, showStatusMessages);
+                        "    show-status-messages: %s\n" +
+                        "    upload-timeout        %s\n",
+                apiUrl, artifactsDir, file, group, waitMinutes, scoreThreshold, username, password, showStatusMessages,
+                uploadTimeout);
 
         return providedArgs;
     }
@@ -355,6 +357,8 @@ public class Main implements NSAutoParameters, NSAutoLogger {
                 "\t--artifacts-dir         Default: ${PWD}/nowsecure-ci_artifacts  directory to place test artifacts");
         System.err.println(
                 "\t--show-status-messages  Default: false                          show status messages from automation testing");
+        System.err.println(
+                "\t--upload-timeout        Default: 60                             binary upload timeout in seconds");
         System.err.println("\t--debug                 Default: false");
 
         System.exit(1);
@@ -392,6 +396,8 @@ public class Main implements NSAutoParameters, NSAutoLogger {
                 this.showStatusMessages = Boolean.valueOf(args[i + 1].trim());
             } else if ("--stop-tests-on-status".equals(args[i])) {
                 this.stopTestsForStatusMessage = args[i + 1].trim();
+            } else if ("--upload-timeout".equals(args[i])) {
+                this.uploadTimeout = Integer.parseInt(args[i + 1].trim());
             } else if ("--debug".equals(args[i])) {
                 this.debug = true;
             } else if ("--skipDnsUrlConnectionValidation".equals(args[i])) {
@@ -401,6 +407,10 @@ public class Main implements NSAutoParameters, NSAutoLogger {
 
         if (artifactsDir == null) {
             this.artifactsDir = new File(ARTIFACTS_DIR);
+        }
+
+        if (this.uploadTimeout == 0) {
+            this.uploadTimeout = 60;
         }
 
         if (isEmpty(this.apiUrl)) {
@@ -430,6 +440,8 @@ public class Main implements NSAutoParameters, NSAutoLogger {
         if (!artifactsDir.exists()) {
             artifactsDir.mkdirs();
         }
+
+        this.helper = new IOHelper(PLUGIN_NAME, this.uploadTimeout);
     }
 
 }
