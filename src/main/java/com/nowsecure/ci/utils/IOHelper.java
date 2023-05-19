@@ -228,7 +228,7 @@ public class IOHelper implements IOHelperI {
         con.setRequestProperty(AUTHORIZATION, "Bearer " + apiKey);
         con.setRequestProperty(USER_AGENT, pluginName + " v" + getVersion());
         con.setConnectTimeout(timeout);
-        con.setReadTimeout(timeout);
+        con.setReadTimeout(300000);
         con.setInstanceFollowRedirects(false);
     }
 
