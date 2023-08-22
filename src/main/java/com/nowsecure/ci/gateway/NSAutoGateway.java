@@ -32,7 +32,7 @@ import org.json.simple.parser.ParseException;
 
 public class NSAutoGateway {
     static int FIFTEEN_SECONDS = 15000;
-    private static final String BINARY_URL_SUFFIX = "/binary/";
+    private static final String BINARY_URL_SUFFIX = "/build/";
     private static final String NOWSECURE_AUTO_SECURITY_TEST_UPLOADED_BINARY_JSON = "/nowsecure-ci-security-test-uploaded-binary.json";
     private static final String NOWSECURE_AUTO_SECURITY_TEST_REPORT_REQUEST_JSON = "/nowsecure-ci-security-test-request.json";
     private static final String NOWSECURE_AUTO_SECURITY_TEST_PREFLIGHT_JSON = "/nowsecure-ci-security-test-preflight.json";
@@ -310,9 +310,9 @@ public class NSAutoGateway {
         if (api.getPort() > 0) {
             baseUrl += ":" + api.getPort();
         }
-        String url = baseUrl + path;
+        String url = baseUrl + path + "?assessment=false";
         if (group != null && group.length() > 0) {
-            url += "?group=" + group;
+            url += "&group=" + group;
         }
         return url;
     }
