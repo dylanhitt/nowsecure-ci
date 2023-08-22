@@ -30,7 +30,7 @@ public class UploadRequest extends MetadataRequest {
         }
         request.setPlatform((String) jsonObject.get("platform"));
         request.setPackageId((String) jsonObject.get("package"));
-        request.setBinary((String) jsonObject.get("digest"));
+        request.setBinary((String) jsonObject.get("binary"));
         if (jsonObject.get("analyzed") != null) {
             request.setAnalyzed((Boolean) jsonObject.get("analyzed"));
         }

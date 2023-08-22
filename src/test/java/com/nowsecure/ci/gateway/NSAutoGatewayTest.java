@@ -177,12 +177,12 @@ public class NSAutoGatewayTest implements NSAutoParameters, NSAutoLogger, IOHelp
 
     @Test
     public void testBuildUrl() throws Exception {
-        Assert.assertEquals("https://nowsecure.com:443/path?group=group",
-                NSAutoGateway.buildUrl("/path", new URL("https://nowsecure.com:443"), "group"));
+        Assert.assertEquals("https://nowsecure.com:443/path?assessment=false&group=group",
+                NSAutoGateway.buildUrl("/path", new URL("https://nowsecure.com:443"), "group", "false"));
         Assert.assertEquals("https://nowsecure.com:443/path",
-                NSAutoGateway.buildUrl("/path", new URL("https://nowsecure.com:443"), ""));
+                NSAutoGateway.buildUrl("/path", new URL("https://nowsecure.com:443"), "", null));
         Assert.assertEquals("https://nowsecure.com:443/path",
-                NSAutoGateway.buildUrl("/path", new URL("https://nowsecure.com:443"), null));
+                NSAutoGateway.buildUrl("/path", new URL("https://nowsecure.com:443"), null, null));
     }
 
     @Test
@@ -329,9 +329,11 @@ public class NSAutoGatewayTest implements NSAutoParameters, NSAutoLogger, IOHelp
         } else if (uri.equals(
                 "https://lab-api.nowsecure.com/app/android/com.apkpure.aegon/assessment/101/results?group=good")) {
             return new String(new IOHelper("test", 1).load(getClass().getResourceAsStream("/report.json")));
-        } else if (uri.equals("https://lab-api.nowsecure.com/assessment/null/summary?group=empty-score")) {
+        } else if (uri
+                .equals("https://lab-api.nowsecure.com/assessment/null/summary?group=empty-score")) {
             return "";
-        } else if (uri.equals("https://lab-api.nowsecure.com/analysis-events/101/dynamic/?group=good")) {
+        } else if (uri
+                .equals("https://lab-api.nowsecure.com/analysis-events/101/dynamic/?group=good")) {
             return "status";
         } else {
             return throwException("Bad GET " + uri);
@@ -340,7 +342,8 @@ public class NSAutoGatewayTest implements NSAutoParameters, NSAutoLogger, IOHelp
 
     @Override
     public String post(String uri, String apiKey) throws IOException {
-        if (uri.equals("https://lab-api.nowsecure.com/app/android/com.apkpure.aegon/assessment/?group=good")) {
+        if (uri.equals(
+                "https://lab-api.nowsecure.com/app/android/com.apkpure.aegon/assessment/?group=good")) {
             return new String(new IOHelper("test", 1).load(getClass().getResourceAsStream("/trigger.json")));
         } else {
             return throwException("Bad POST " + uri);
@@ -349,9 +352,9 @@ public class NSAutoGatewayTest implements NSAutoParameters, NSAutoLogger, IOHelp
 
     @Override
     public String upload(String uri, String apiKey, File file) throws IOException {
-        if (uri.equals("https://lab-api.nowsecure.com/binary/?group=good")) {
+        if (uri.equals("https://lab-api.nowsecure.com/build/?assessment=false&group=good")) {
             return new String(new IOHelper("test", 1).load(getClass().getResourceAsStream("/binary.json")));
-        } else if (uri.equals("https://lab-api.nowsecure.com/binary/?group=preflight-error")) {
+        } else if (uri.equals("https://lab-api.nowsecure.com/build/?assessment=false&group=preflight-error")) {
             return new String(new IOHelper("test", 1).load(getClass().getResourceAsStream("/error.json")));
         } else {
             return throwException("UPLOAD " + uri);

@@ -1,5 +1,5 @@
 {
-  "digest": "mydigest",
+  "binary": "mydigest",
   "algorithm": "sha256",
   "token": "eyJh",
   "analyzed": true,

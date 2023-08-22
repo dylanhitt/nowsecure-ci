@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.print.DocFlavor.STRING;
+
 import com.nowsecure.ci.domain.AssessmentRequest;
 import com.nowsecure.ci.domain.Color;
 import com.nowsecure.ci.domain.Message;
@@ -32,7 +34,7 @@ import org.json.simple.parser.ParseException;
 
 public class NSAutoGateway {
     static int FIFTEEN_SECONDS = 15000;
-    private static final String BINARY_URL_SUFFIX = "/binary/";
+    private static final String BINARY_URL_SUFFIX = "/build/";
     private static final String NOWSECURE_AUTO_SECURITY_TEST_UPLOADED_BINARY_JSON = "/nowsecure-ci-security-test-uploaded-binary.json";
     private static final String NOWSECURE_AUTO_SECURITY_TEST_REPORT_REQUEST_JSON = "/nowsecure-ci-security-test-request.json";
     private static final String NOWSECURE_AUTO_SECURITY_TEST_PREFLIGHT_JSON = "/nowsecure-ci-security-test-preflight.json";
@@ -110,7 +112,7 @@ public class NSAutoGateway {
     UploadRequest uploadBinary() throws IOException, ParseException {
         File file = params.getFile();
         //
-        String url = buildUrl(BINARY_URL_SUFFIX);
+        String url = buildUrl(BINARY_URL_SUFFIX, "false");
         logger.info("uploading binary " + file.getAbsolutePath() + " of size " + file.length() + " bytes, hash "
                 + IOHelper.toDigest(file, "SHA-256") + " to " + url);
         String json = helper.upload(url, params.getApiKey(), file);
@@ -132,7 +134,7 @@ public class NSAutoGateway {
     }
 
     UploadRequest preflight(UploadRequest request) throws IOException, ParseException {
-        String url = buildUrl("/binary/" + request.getBinary() + "/analysis");
+        String url = buildUrl("/binary/" + request.getBinary() + "/analysis", null);
         logger.info("executing preflight for digest " + request.getBinary() + " to " + url);
         try {
             String json = helper.get(url, params.getApiKey());
@@ -160,7 +162,7 @@ public class NSAutoGateway {
     UploadRequest build(UploadRequest request) throws IOException, ParseException {
         if (IOHelper.isEmpty(request.getPackageId()) || IOHelper.isEmpty(request.getPlatform())) {
             File file = params.getFile();
-            String url = buildUrl(BINARY_URL_SUFFIX);
+            String url = buildUrl(BINARY_URL_SUFFIX, "false");
             String json = helper.upload(url, params.getApiKey(), file);
 
             request = UploadRequest.fromJson(json);
@@ -196,7 +198,7 @@ public class NSAutoGateway {
 
     AssessmentRequest triggerAssessment(UploadRequest uploadRequest) throws IOException, ParseException {
         String url = buildUrl(
-                "/app/" + uploadRequest.getPlatform() + "/" + uploadRequest.getPackageId() + "/assessment/");
+                "/app/" + uploadRequest.getPlatform() + "/" + uploadRequest.getPackageId() + "/assessment/", null);
         logger.info("triggering security test for digest " + uploadRequest.getBinary() + " to " + url);
 
         String json = helper.post(url, params.getApiKey());
@@ -212,7 +214,7 @@ public class NSAutoGateway {
     }
 
     void showStatusMessages(AssessmentRequest request) throws MalformedURLException {
-        String url = buildUrl("/analysis-events/" + request.getTask() + "/dynamic");
+        String url = buildUrl("/analysis-events/" + request.getTask() + "/dynamic", null);
         try {
             String json = helper.get(url, params.getApiKey());
             List<String> msgs = Message.fromJson(json);
@@ -230,7 +232,7 @@ public class NSAutoGateway {
     //
     ReportInfo[] getReportInfos(AssessmentRequest uploadInfo) throws IOException, ParseException {
         String resultsUrl = buildUrl("/app/" + uploadInfo.getPlatform() + "/" + uploadInfo.getPackageId()
-                + "/assessment/" + uploadInfo.getTask() + "/results");
+                + "/assessment/" + uploadInfo.getTask() + "/results", null);
         File path = new File(params.getArtifactsDir().getCanonicalPath() + NOWSECURE_AUTO_SECURITY_TEST_REPORT_JSON);
         String reportJson = helper.get(resultsUrl, params.getApiKey());
         ReportInfo[] reportInfos = ReportInfo.fromJson(reportJson);
@@ -243,7 +245,7 @@ public class NSAutoGateway {
     }
 
     ScoreInfo getScoreInfo(AssessmentRequest uploadInfo) throws ParseException, IOException {
-        String scoreUrl = buildUrl("/assessment/" + uploadInfo.getTask() + "/summary");
+        String scoreUrl = buildUrl("/assessment/" + uploadInfo.getTask() + "/summary", null);
         File path = new File(params.getArtifactsDir().getCanonicalPath() + NOWSECURE_AUTO_SECURITY_TEST_SCORE_JSON);
         String scoreJson = helper.get(scoreUrl, params.getApiKey());
         if (scoreJson.isEmpty()) {
@@ -301,19 +303,36 @@ public class NSAutoGateway {
         return " [" + min + " minutes]";
     }
 
-    String buildUrl(String path) throws MalformedURLException {
-        return buildUrl(path, new URL(params.getApiUrl()), params.getGroup());
+    String buildUrl(String path, String assessment) throws MalformedURLException {
+        return buildUrl(path, new URL(params.getApiUrl()), params.getGroup(), assessment);
     }
 
-    public static String buildUrl(String path, URL api, String group) throws MalformedURLException {
+    public static String buildUrl(String path, URL api, String group, String assessment) throws MalformedURLException {
         String baseUrl = api.getProtocol() + "://" + api.getHost();
         if (api.getPort() > 0) {
             baseUrl += ":" + api.getPort();
         }
         String url = baseUrl + path;
+        HashMap<String, String> queryParams = new HashMap<String, String>();
         if (group != null && group.length() > 0) {
-            url += "?group=" + group;
+            queryParams.put("group", group);
         }
+        if (assessment != null && assessment.length() > 0) {
+            queryParams.put("assessment", assessment);
+        }
+
+        if (queryParams.size() > 0) {
+            url += "?";
+            Boolean first = true;
+            for (Map.Entry<String, String> entry : queryParams.entrySet()) {
+                if (!first)
+                    url += "&";
+                else
+                    first = false;
+                url += entry.getKey() + "=" + entry.getValue();
+            }
+        }
+
         return url;
     }
 
