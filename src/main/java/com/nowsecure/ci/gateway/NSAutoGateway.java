@@ -91,7 +91,7 @@ public class NSAutoGateway {
                 params.getProxySettings().validate("Slave");
             }
             //
-            AssessmentRequest request = triggerAssessment(preflight(uploadBinary()));
+            AssessmentRequest request = triggerAssessment(uploadBinary());
             //
             if (params.getWaitMinutes() > 0) {
                 waitForResults(request);
@@ -131,32 +131,6 @@ public class NSAutoGateway {
                 "uploaded binary with digest " + request.getBinary() + " and saved output to " + path.getAbsolutePath(),
                 Color.Green);
         return request;
-    }
-
-    UploadRequest preflight(UploadRequest request) throws IOException, ParseException {
-        String url = buildUrl("/binary/" + request.getBinary() + "/analysis", null);
-        logger.info("executing preflight for digest " + request.getBinary() + " to " + url);
-        try {
-            String json = helper.get(url, params.getApiKey());
-            if (params.isDebug() || json.contains("error") || IOHelper.isEmpty(request.getPackageId())
-                    || IOHelper.isEmpty(request.getPlatform())) {
-
-                logger.info("Prefight Results: " + json, Color.Cyan);
-            }
-            File path = new File(
-                    params.getArtifactsDir().getCanonicalPath() + NOWSECURE_AUTO_SECURITY_TEST_PREFLIGHT_JSON);
-            helper.save(path, json); //
-            artifacts.add(path);
-            logger.info("saved preflight results to " + path.getAbsolutePath(), Color.Green);
-
-            if (json.contains("error")) {
-                throw new IOException("Preflight failed");
-            }
-            return build(request);
-        } catch (IOException e) {
-            String msg = e.toString().contains("401 for URL") ? "" : " due to " + e.toString();
-            throw new IOException("Failed to execute preflight for " + request.getBinary() + msg, e);
-        }
     }
 
     UploadRequest build(UploadRequest request) throws IOException, ParseException {

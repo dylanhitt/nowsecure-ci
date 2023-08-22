@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v2.1.2
+
+- Remove second run of preflight
+
 ## v2.1.1
 
 - Use /build to trigger an assessment
