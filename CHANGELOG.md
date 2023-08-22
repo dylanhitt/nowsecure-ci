@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## v2.0.3
+## v2.1.1
 
 - Use /build to trigger an assessment
 
