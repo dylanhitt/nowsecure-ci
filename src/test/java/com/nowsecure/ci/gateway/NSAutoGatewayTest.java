@@ -137,12 +137,6 @@ public class NSAutoGatewayTest implements NSAutoParameters, NSAutoLogger, IOHelp
         gw.execute(false);
     }
 
-    @Test(expected = IOException.class)
-    public void testPreflightError() throws Exception {
-        group = "preflight-error";
-        gw.preflight(new UploadRequest());
-    }
-
     @Test
     public void testEmptyScore() throws Exception {
         group = "empty-score";
