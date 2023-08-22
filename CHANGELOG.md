@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v2.0.3
+
+- Use /build to trigger an assessment
+
 ## v2.0.2
 
 - Switch lib for JSONParsing in ReportInfo over to
